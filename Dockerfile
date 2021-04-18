@@ -1,7 +1,8 @@
 FROM node:12.19.0-alpine3.9 AS build
 WORKDIR /usr/src/app
 COPY package.json ./
-RUN npm install glob rimraf
+RUN npm install -g rimraf
+RUN npm install -g ansi-styles
 RUN npm install --only=development
 COPY . .
 RUN npm run build
