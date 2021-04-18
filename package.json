@@ -37,7 +37,6 @@
     "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "^7.3.0",
     "@nestjs/testing": "^7.6.15",
-    "@types/ansi-colors": "^3.2.2",
     "@types/ansi-styles": "^3.2.1",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.22",
