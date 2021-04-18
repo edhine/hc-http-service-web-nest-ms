@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
     "target": "es2017",
+    "module": "CommonJS",
     "sourceMap": true,
     "outDir": "./dist",
-    "noEmitOnError": true,
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "lib": [
+      "es2018"
+    ]
   }
 }
