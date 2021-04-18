@@ -1,0 +1,50 @@
+##################################################################################################
+# HTTP Notification services
+# selector:
+#   app: istio identifica los labels app y los junta
+#   role: enviar trafico de servicio a pods
+##################################################################################################
+apiVersion: "v1"
+kind: Service
+metadata:
+  name: client-service-front-svc
+  labels:
+    app: client-service-front
+    service: client-service-front-svc
+spec:
+  ports:
+  - port: 3000
+    name: http
+  selector:
+    app: client-service-front
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-service-front-v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-service-front
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: client-service-front
+        version: v1
+    spec:
+      initContainers:
+      - name: init-hc-notifications-api-svc
+        image: busybox:1.28
+        command: ['sh', '-c', "until nslookup hc-notifications-api-svc.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 1; done"]
+      containers:
+      - name: client-service-front
+        image: hc-http-web-notifications-nest-ms:latest
+        env:
+        - name: PORT
+          value: "3000"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+---
