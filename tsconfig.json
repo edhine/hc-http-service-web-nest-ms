@@ -3,13 +3,13 @@
     "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
-    "moduleResolution": "Node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
+    "noEmitOnError": true,
     "baseUrl": "./",
     "incremental": true
   }
