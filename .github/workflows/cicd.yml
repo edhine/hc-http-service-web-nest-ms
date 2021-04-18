@@ -15,37 +15,37 @@ jobs:
         tag_with_ref: true
         tag_with_sha: true
         tags: ${{ github.sha }}
-  deploy-to-cluster:
-    name: deploy to cluster
-    runs-on: ubuntu-latest
-    env:
-      KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      HOLA: test
-    needs: build-and-push
-    steps:
-    - uses: actions/checkout@master
-    - name: deploy to cluster
-      uses: yokawasa/action-setup-kube-tools@v0.4.0
-      with:
-        kubectl: '1.20.2'
-        kustomize: '3.7.0'
-    - name: kubectl
-      id: kubectl
-      run: |
-        mkdir -p ~/.kube/
-        echo $KUBE_CONFIG_DATA | base64 -d > ~/.kube/config
-        cd .kustomize
-        kustomize edit set image prueba-gha=${{ github.repository }}:${{ github.sha }}
-        kustomize build . | kubectl apply -f -
-        kubectl -n prueba rollout status deployment/prueba-gha
-        URL=`kubectl -n prueba get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
-        while [[ $URL != *"ngrok"* ]]; do
-          echo "Still not ready" && sleep 5
-        done
-        echo "::set-output name=url::$URL"
-    - name: Add Ngrok URL comment to PR
-      uses: unsplash/comment-on-pr@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        msg: "URL for environment is: ${{ steps.kubectl.outputs.url }}"
+  # deploy-to-cluster:
+  #   name: deploy to cluster
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+  #     HOLA: test
+  #   needs: build-and-push
+  #   steps:
+  #   - uses: actions/checkout@master
+  #   - name: deploy to cluster
+  #     uses: yokawasa/action-setup-kube-tools@v0.4.0
+  #     with:
+  #       kubectl: '1.20.2'
+  #       kustomize: '3.7.0'
+  #   - name: kubectl
+  #     id: kubectl
+  #     run: |
+  #       mkdir -p ~/.kube/
+  #       echo $KUBE_CONFIG_DATA | base64 -d > ~/.kube/config
+  #       cd .kustomize
+  #       kustomize edit set image prueba-gha=${{ github.repository }}:${{ github.sha }}
+  #       kustomize build . | kubectl apply -f -
+  #       kubectl -n prueba rollout status deployment/prueba-gha
+  #       URL=`kubectl -n prueba get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
+  #       while [[ $URL != *"ngrok"* ]]; do
+  #         echo "Still not ready" && sleep 5
+  #       done
+  #       echo "::set-output name=url::$URL"
+  #   - name: Add Ngrok URL comment to PR
+  #     uses: unsplash/comment-on-pr@master
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     with:
+  #       msg: "URL for environment is: ${{ steps.kubectl.outputs.url }}"
