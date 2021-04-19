@@ -37,8 +37,8 @@ jobs:
         cd .kustomize
         kustomize edit set image hc-http-service-web-nest-ms=${{ github.repository }}:${{ github.sha }}
         kustomize build . | kubectl apply -f -
-        kubectl -n c rollout status deployment/hc-http-service-web-nest-ms
-        URL=`kubectl -n ${GITHUB_REF##*/ get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
+        kubectl -n c rollout status deployment/client-service-web-v1
+        URL=`kubectl -n ${GITHUB_REF##*/} get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
         while [[ $URL != *"ngrok"* ]]; do
           echo "Still not ready" && sleep 5
         done

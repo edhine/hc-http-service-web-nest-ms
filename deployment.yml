@@ -40,7 +40,7 @@ spec:
         command: ['sh', '-c', "until nslookup hc-notifications-api-svc.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 1; done"]
       containers:
       - name: client-service-front
-        image: hc-http-web-notifications-nest-ms:latest
+        image: edhine/hc-http-web-notifications-nest-ms
         env:
         - name: PORT
           value: "3000"
