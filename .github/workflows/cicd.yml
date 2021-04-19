@@ -35,7 +35,7 @@ jobs:
         mkdir -p ~/.kube/
         echo $KUBE_CONFIG_DATA | base64 -d > ~/.kube/config
         cd .kustomize
-        kustomize edit set image hc-http-service-web-nest-ms=${{ github.repository }}:${{ github.sha }}
+        kustomize edit set image input_image=${{ github.repository }}:${{ github.sha }}
         kustomize build . | kubectl apply -f -
     #     kubectl -n c rollout status deployment/client-service-web-v1
     #     URL=`kubectl -n ${{ github.ref }} get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
