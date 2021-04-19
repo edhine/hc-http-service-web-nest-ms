@@ -1,4 +1,5 @@
-#  PRODUCTION DOCKERFILE
+
+# PRODUCTION DOCKERFILE
 # ---------------------
 # This Dockerfile allows to build a Docker image of the NestJS application
 # and based on a NodeJS 12 image. The multi-stage mechanism allows to build
