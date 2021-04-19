@@ -36,7 +36,7 @@ jobs:
         cd .kustomize
         kustomize edit set image input_image=${{ github.repository }}:${{ github.sha }}
         kustomize build . | kubectl apply -f -
-        kubectl -n c rollout status deployment/client-service-web-v1
+        kubectl -n main rollout status deployment/client-service-web-v1
         URL=`kubectl -n main get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
         while [[ $URL != *"ngrok"* ]]; do
           echo "Still not ready" && sleep 5
