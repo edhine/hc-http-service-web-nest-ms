@@ -1,4 +1,7 @@
-on: push
+on:
+  push:
+    branches:
+    - main
 name: deploy
 jobs:
   build-and-push:
@@ -36,15 +39,15 @@ jobs:
         cd .kustomize
         kustomize edit set image input_image=${{ github.repository }}:${{ github.sha }}
         kustomize build . | kubectl apply -f -
-        kubectl -n main rollout status deployment/client-service-web-v1
-        URL=`kubectl -n main get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
-        while [[ $URL != *"ngrok"* ]]; do
-          echo "Still not ready" && sleep 5
-        done
-        echo "::set-output name=url::$URL"
-    - name: Add Ngrok URL comment to PR
-      uses: unsplash/comment-on-pr@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.WRITE_NGROK_PR }}
-      with:
-        msg: "URL for enviDronment is: ${{ steps.kubectl.outputs.url }}"
+    #     kubectl -n main rollout status deployment/client-service-web-v1
+    #     URL=`kubectl -n main get ngrok -o=custom-columns='DATA:status.url' | tail -n1`
+    #     while [[ $URL != *"ngrok"* ]]; do
+    #       echo "Still not ready" && sleep 5
+    #     done
+    #     echo "::set-output name=url::$URL"
+    # - name: Add Ngrok URL comment to PR
+    #   uses: unsplash/comment-on-pr@master
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     msg: "URL for enviDronment is: ${{ steps.kubectl.outputs.url }}"
