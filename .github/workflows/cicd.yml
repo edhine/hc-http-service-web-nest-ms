@@ -45,6 +45,6 @@ jobs:
     - name: Add Ngrok URL comment to PR
       uses: unsplash/comment-on-pr@master
       env:
-        GITHUB_TOKEN: ${{ secrets.WRITE_NGROK_PR }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         msg: "URL for enviDronment is: ${{ steps.kubectl.outputs.url }}"
