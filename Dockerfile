@@ -22,7 +22,8 @@ WORKDIR /home/node
 
 COPY . /home/node
 
-RUN npm ci && npm run build
+RUN npm ci \
+    && npm run build
 
 # ---
 
