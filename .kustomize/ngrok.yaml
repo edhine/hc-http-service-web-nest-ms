@@ -4,5 +4,5 @@ metadata:
   name: ngrok-pr
 spec:
   protocol: http
-  service: ngrok-pr
+  service: client-service-web-svc
   port: 80
