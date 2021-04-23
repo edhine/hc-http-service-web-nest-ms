@@ -15,7 +15,7 @@ import { ClientProxyFactory, Transport } from "@nestjs/microservices";
           transport: Transport.TCP,
           options: {
             host: configService.get('HC_NOTIFICATIONS_API_SVC_PORT_3000_TCP_ADDR'),
-            port: configService.get('HC_NOTIFICATIONS_API_SVC_PORT_3000_TCP_PORT'),
+            port: configService.get('HC_NOTIFICATIONS_API_SVC_PORT_3000_TCP_PORT') || 4000,
           }
         })
     }
